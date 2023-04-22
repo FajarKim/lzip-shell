@@ -291,17 +291,18 @@ setup_bz2sh() {
 }
 
 print_success() {
-  printf '%s\n' "${BOLD}      __         ___             __         ____"
-  printf '%s\n' '     / /_  ____ |__ \      _____/ /_  ___  / / /'
-  printf '%s\n' '    / __ \/_  / __/ /_____/ ___/ __ \/ _ \/ / /'
-  printf '%s\n' '   / /_/ / / /_/ __/_____(__  ) / / /  __/ / /'
-  printf '%s\n\n' '  /_.___/ /___/____/    /____/_/ /_/\___/_/_/'
+  printf >&2 '%s\n' "${BOLD}     __      _                  __         ____"
+  printf >&2 '%s\n' '    / /___  (_)___        _____/ /_  ___  / / /'
+  printf >&2 '%s\n' '   / /_  / / / __ \______/ ___/ __ \/ _ \/ / /'
+  printf >&2 '%s\n' '  / / / /_/ / /_/ /_____(__  ) / / /  __/ / /'
+  printf >&2 '%s\n' ' /_/ /___/_/ .___/     /____/_/ /_/\___/_/_/'
+  printf >&2 '%s\n' '          /_/'
   printf >&2 '%s\n' "Contact me in:"
-  printf >&2 '%s\n' "• Facebook : $(fmt_link 파자르김 https://bit.ly/facebook-fajarkim)"
+  printf >&2 '%s\n' "• Facebook : $(fmt_link 파자르김 https://facebook.com/fajarrkim)"
   printf >&2 '%s\n' "• Instagram: $(fmt_link @fajarkim_ https://instagram.com/fajarkim_)"
   printf >&2 '%s\n' "• Twitter  : $(fmt_link @fajarkim_ https://twitter.com/fajarkim_)"
   printf >&2 '%s\n' "• Telegram : $(fmt_link @FajarThea https://t.me/FajarThea)"
-  printf >&2 '%s\n' "• WhatsApp : $(fmt_link +6285659850910 https://bit.ly/whatsapp-fajarkim)"
+  printf >&2 '%s\n' "• WhatsApp : $(fmt_link +6285659850910 https://wa.me/6285659850910)"
   printf >&2 '%s\n' "• E-mail   : fajarrkim@gmail.com${RESET}"
 }
 
