@@ -26,7 +26,7 @@ LZip Shell Exec est un outil qui peut être utilisé pour compresser les chaîne
 ## Termux
 ### Méthode 1
 - `$ pkg update -y && pkg upgrade -y`
-- `$ pkg install lzip lzma git -y`
+- `$ pkg install lzip xz-utils git -y`
 - `$ git clone https://github.com/FajarKim/lzip-shell`
 - `$ cd lzip-shell/tools/Termux`
 - `$ ./install.sh` ou `$ bash install.sh`
@@ -58,7 +58,7 @@ $ bash install.sh
 ## Linux
 ### Méthode 1
 - `$ apt update -y && apt upgrade -y`
-- `$ apt install lzip lzma git -y`
+- `$ apt install lzip xz-utils git -y`
 - `$ git clone https://github.com/FajarKim/lzip-shell`
 - `$ cd lzip-shell/tools/Linux`
 - `$ ./install.sh` ou `$ bash install.sh`
@@ -116,20 +116,22 @@ Commande supportées:
 Comment utiliser cet outil:
 ### Exemple 1
 ```text
-$ bzsh.sh -t bash -f FILE
+$ lzipsh.sh -t bash -f FILE
 ```
 ou
 ```text
-$ bzsh.sh --type-shell bash --file FILE
+$ lzipsh.sh --type-shell bash --file FILE
 ```
 ### Exemple 2
 ```text
-$ bzsh.sh -t bash -f FILE1 FILE2 FILE3...
+$ lzipsh.sh -t bash -f FILE1 FILE2 FILE3...
 ```
 ou
 ```text
-$ bzsh.sh --type-shell bash --file FILE1 FILE2 FILE3...
+$ lzipsh.sh --type-shell bash --file FILE1 FILE2 FILE3...
 ```
+### Remarques
+Plus il y a de lignes dans un fichier, plus il faudra de temps pour le crypter.
 
 # Contacter
 N'hésitez pas à me contacter ci-dessous si vous avez des problèmes ou des questions concernant cet outil. N'oubliez pas de me suivre!
@@ -150,7 +152,7 @@ N'hésitez pas à me contacter ci-dessous si vous avez des problèmes ou des que
 # Faire un Don
 Pour les personnes aimables qui veulent faire un don pour le développement et la progression de ce compte, veuillez cliquer sur le lien ci-dessous! Je vous remercie beaucoup pour ceux qui veulent faire un don 😊😊😊
 <div align="left">
-    <a href="https://github.com/sponsors/FajarKim/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_github.png" alt="GitHub Sponsor" width="165"></a>
-    <a href="https://paypal.me/agusbirawan/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_paypal.png" alt="PayPal Donate" width="165"></a>
-    <a href="https://trakteer.id/FajarKim/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_trakteer.png" alt="Trakteer.id Donate" width="165"></a>
+    <a href="https://github.com/sponsors/FajarKim/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_github.png" alt="GitHub Sponsor" width="250"></a>
+    <a href="https://paypal.me/agusbirawan/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_paypal.png" alt="PayPal Donate" width="250"></a>
+    <a href="https://trakteer.id/FajarKim/"><img src="https://raw.githubusercontent.com/FajarKim/FajarKim/master/images/donate_trakteer.png" alt="Trakteer.id Donate" width="250"></a>
 </div>

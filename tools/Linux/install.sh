@@ -1,27 +1,28 @@
 #!/bin/bash
 #
-# This script should be run via curl:
 # 1. In Termux:
-#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Termux/install.sh)"
+# This script should be run via curl:
+#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
 # or via wget:
-#   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Termux/install.sh)"
+#   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
 # or via fetch:
-#   bash -c "$(fetch -o - https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Termux/install.sh)"
+#   bash -c "$(fetch -o - https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
 #
 # 2. In Linux:
-#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Linux/install.sh)"
+# This script should be run via curl:
+#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh)"
 # or via wget:
-#   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Linux/install.sh)"
+#   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh)"
 # or via fetch:
-#   bash -c "$(fetch -o - https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Linux/install.sh)"
+#   bash -c "$(fetch -o - https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh)"
 #
 # As an alternative, you can first download the install script and run it afterwards:
 # 1. In Termux:
-#   wget https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Termux/install.sh
+#   wget https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh
 #   bash install.sh
 #
 # 2. In Linux:
-#   wget https://raw.githubusercontent.com/FajarKim/bz2-shell/master/tools/Linux/install.sh
+#   wget https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh
 #   bash install.sh
 #
 set -e
@@ -42,9 +43,14 @@ test -d "$HOME/.cache" && test -w "$HOME/.cache" && test -x "$HOME/.cache" || {
   mkdir "$HOME/.cache" >/dev/null 2>&1
 }
 
+# Test directory '$PATH'
+test -d "$PATH" && test -w "$PATH" && test -x "$PATH" || {
+  PATH=$(command -v 'bash' | sed 's|/bash||g')
+}
+
 # Default settings
-BZSH="${BZSH:-$HOME/.cache/.bz2-shell}"
-REPO=${REPO:-FajarKim/bz2-shell}
+LZIPSH="${LZIPSH:-$HOME/.cache/.lzip-shell}"
+REPO=${REPO:-FajarKim/lzip-shell}
 REMOTE=${REMOTE:-https://github.com/${REPO}.git}
 BRANCH=${BRANCH:-master}
 
@@ -185,7 +191,7 @@ fmt_underline() {
   is_tty && printf '\033[4m%s\033[24m\033[1m' "$*" || printf '%s\n' "$*"
 }
 
-install_bz2sh() {
+install_lzipsh() {
   # Prevent the cloned repository from having insecure permissions. Failing to do
   # so causes compinit() calls to fail with "command not found: compdef" errors
   # for users with insecure umasks (e.g., "002", allowing group writability). Note
@@ -193,7 +199,7 @@ install_bz2sh() {
   # precedence over umasks except for filesystems mounted with option "noacl".
   umask g-w,o-w
 
-  echo "Cloning BZip2 Shell Exec (bz2-shell)..."
+  echo "Cloning LZip Shell Exec (lzip-shell)..."
 
   command_exists git || {
     fmt_info "git is not installed"
@@ -209,22 +215,22 @@ install_bz2sh() {
   fi
 
   # Manual clone with git config options to support git < v1.7.2
-  git init --quiet "$BZSH" && cd "$BZSH" \
+  git init --quiet "$LZIPSH" && cd "$LZIPSH" \
   && git config core.eol lf \
   && git config core.autocrlf false \
   && git config fsck.zeroPaddedFilemode ignore \
   && git config fetch.fsck.zeroPaddedFilemode ignore \
   && git config receive.fsck.zeroPaddedFilemode ignore \
-  && git config bz2-shell.remote origin \
-  && git config bz2-shell.branch "$BRANCH" \
+  && git config lzip-shell.remote origin \
+  && git config lzip-shell.branch "$BRANCH" \
   && git remote add origin "$REMOTE" \
   && git fetch --depth=1 origin \
   && git checkout -b "$BRANCH" "origin/$BRANCH" || {
-    test ! -d "$BZSH" || {
+    test ! -d "$LZIPSH" || {
       cd - >/dev/null 2>&1
-      rm -rf "$BZSH" >/dev/null 2>&1 || rm -rf "$BZSH" >/dev/null 2>&1
+      rm -rf "$LZIPSH" >/dev/null 2>&1 || rm -rf "$LZIPSH" >/dev/null 2>&1
     }
-    fmt_info "git clone of bz2-shell repo failed"
+    fmt_info "git clone of lzip-shell repo failed"
     exit 1
   }
   # Exit installation directory
@@ -233,7 +239,7 @@ install_bz2sh() {
   echo
 }
 
-setup_bz2sh() {
+setup_lzipsh() {
   # Checking directory $PATH
   test -d "$PATH" && test -w "$PATH" && test -x "$PATH" || {
     PATH=/bin
@@ -243,29 +249,29 @@ setup_bz2sh() {
     }
   }
 
-  # Checking file 'bz2sh.sh'
-  test -x "$BZSH/bzsh.sh" || test -f "$BZSH/bzsh.sh" || {
-    chmod -x "$BZSH/bzsh.sh"  >/dev/null 2>&1 || {
-      fmt_info "cannot chmod file bzsh.sh"
-      echo "No such file bzsh.sh in directory $BZSH"
+  # Checking file 'lzipsh.sh'
+  test -x "$LZIPSH/lzipsh.sh" || test -f "$LZIPSH/lzipsh.sh" || {
+    chmod -x "$LZIPSH/lzipsh.sh"  >/dev/null 2>&1 || {
+      fmt_info "cannot chmod file lzipsh.sh"
+      echo "No such file lzipsh.sh in directory $LZIPSH"
       exit 1
     }
   }
 
   # Checking file 'upgrade.sh'
-  test -x "$BZSH/tools/Linux/upgrade.sh" || test -f "$BZSH/tools/Linux/upgrade.sh" || {
-    chmod -x "$BZSH/tools/Linux/upgrade.sh"  >/dev/null 2>&1 || {
+  test -x "$LZIPSH/tools/Linux/upgrade.sh" || test -f "$LZIPSH/tools/Linux/upgrade.sh" || {
+    chmod -x "$LZIPSH/tools/Linux/upgrade.sh"  >/dev/null 2>&1 || {
       fmt_info "cannot chmod file upgrade.sh"
-      echo "No such file upgrade.sh in directory $BZSH/tools/Linux"
+      echo "No such file upgrade.sh in directory $LZIPSH/tools/Linux"
       exit 1
     }
   }
 
   # Checking file 'uninstall.sh'
-  test -x "$BZSH/tools/Linux/uninstall.sh" || test -f "$BZSH/tools/Linux/uninstall.sh" || {
-    chmod -x "$BZSH/tools/Linux/uninstall.sh"  >/dev/null 2>&1 || {
+  test -x "$LZIPSH/tools/Linux/uninstall.sh" || test -f "$LZIPSH/tools/Linux/uninstall.sh" || {
+    chmod -x "$LZIPSH/tools/Linux/uninstall.sh"  >/dev/null 2>&1 || {
       fmt_info "cannot chmod file uninstall.sh"
-      echo "No such file uninstall.sh in directory $BZSH/tools/Linux"
+      echo "No such file uninstall.sh in directory $LZIPSH/tools/Linux"
       exit 1
     }
   }
@@ -274,16 +280,16 @@ setup_bz2sh() {
   # Creating symbolic links
   echo "Create symbolic link..."
 
-  ln -s "$BZSH/bzsh.sh" "$PATH/bzsh" >/dev/null 2>&1 || {
-    fmt_info "cannot create symbolic link $BZSH/bzsh.sh as $PATH/bzsh"
+  ln -s "$LZIPSH/lzipsh.sh" "$PATH/lzipsh" >/dev/null 2>&1 || {
+    fmt_info "cannot create symbolic link $LZIPSH/lzipsh.sh as $PATH/lzipsh"
     exit 1
   }
-  ln -s "$BZSH/tools/Linux/upgrade.sh" "$PATH/bzsh-upgrade" >/dev/null 2>&1 || {
-    fmt_info "cannot create symbolic link $BZSH/tools/Linux/upgrade.sh as $PATH/bzsh-upgrade"
+  ln -s "$LZIPSH/tools/Linux/upgrade.sh" "$PATH/lzipsh-upgrade" >/dev/null 2>&1 || {
+    fmt_info "cannot create symbolic link $LZIPSH/tools/Linux/upgrade.sh as $PATH/lzipsh-upgrade"
     exit 1
   }
-  ln -s "$BZSH/tools/Linux/uninstall.sh" "$PATH/bzsh-uninstall" >/dev/null 2>&1 || {
-    fmt_info "cannot create symbolic link $BZSH/tools/Linux/uninstall.sh as $PATH/bzsh-uninstall"
+  ln -s "$LZIPSH/tools/Linux/uninstall.sh" "$PATH/lzipsh-uninstall" >/dev/null 2>&1 || {
+    fmt_info "cannot create symbolic link $LZIPSH/tools/Linux/uninstall.sh as $PATH/lzipsh-uninstall"
     exit 1
   }
 
@@ -291,33 +297,35 @@ setup_bz2sh() {
 }
 
 print_success() {
-  printf >&2 '%s\n' "${BOLD}     __      _                  __         ____"
-  printf >&2 '%s\n' '    / /___  (_)___        _____/ /_  ___  / / /'
-  printf >&2 '%s\n' '   / /_  / / / __ \______/ ___/ __ \/ _ \/ / /'
-  printf >&2 '%s\n' '  / / / /_/ / /_/ /_____(__  ) / / /  __/ / /'
-  printf >&2 '%s\n' ' /_/ /___/_/ .___/     /____/_/ /_/\___/_/_/'
-  printf >&2 '%s\n' '          /_/'
+  printf '%s\n' "${BOLD}     __      _                  __         ____"
+  printf '%s\n' '    / /___  (_)___        _____/ /_  ___  / / /'
+  printf '%s\n' '   / /_  / / / __ \______/ ___/ __ \/ _ \/ / /'
+  printf '%s\n' '  / / / /_/ / /_/ /_____(__  ) / / /  __/ / /'
+  printf '%s\n' ' /_/ /___/_/ .___/     /____/_/ /_/\___/_/_/'
+  printf '%s\n' '          /_/     Has been installed!! :)'
   printf >&2 '%s\n' "Contact me in:"
   printf >&2 '%s\n' "• Facebook : $(fmt_link 파자르김 https://facebook.com/fajarrkim)"
   printf >&2 '%s\n' "• Instagram: $(fmt_link @fajarkim_ https://instagram.com/fajarkim_)"
+  printf >&2 '%s\n' "             $(fmt_link @fajarhacker_ https://instagram.com/fajarhacker_)"
   printf >&2 '%s\n' "• Twitter  : $(fmt_link @fajarkim_ https://twitter.com/fajarkim_)"
   printf >&2 '%s\n' "• Telegram : $(fmt_link @FajarThea https://t.me/FajarThea)"
   printf >&2 '%s\n' "• WhatsApp : $(fmt_link +6285659850910 https://wa.me/6285659850910)"
+  printf >&2 '%s\n' "• YouTube  : $(fmt_link 'Fajar Hacker' https://youtube.com/@FajarHacker)"
   printf >&2 '%s\n' "• E-mail   : fajarrkim@gmail.com${RESET}"
 }
 
 main() {
   setup_color
 
-  # checking folder $BZSH
-  if test -d "$BZSH"; then
-    fmt_info "The folder '$BZSH' already exists."
+  # checking folder $LZIPSH
+  if test -d "$LZIPSH"; then
+    fmt_info "The folder '$LZIPSH' already exists."
     echo "You'll need to remove it if you want to reinstall."
     exit 1
   fi
 
-  install_bz2sh
-  setup_bz2sh
+  install_lzipsh
+  setup_lzipsh
   print_success
 }
 

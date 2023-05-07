@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #
-# This script should be run via curl:
 # 1. In Termux:
+# This script should be run via curl:
 #   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
 # or via wget:
 #   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
@@ -9,6 +9,7 @@
 #   bash -c "$(fetch -o - https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Termux/install.sh)"
 #
 # 2. In Linux:
+# This script should be run via curl:
 #   bash -c "$(curl -fsSL https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh)"
 # or via wget:
 #   bash -c "$(wget -qO- https://raw.githubusercontent.com/FajarKim/lzip-shell/master/tools/Linux/install.sh)"
@@ -41,6 +42,11 @@ PREFIX=/data/data/com.termux/files/usr
 # Test directory '/data/data/com.termux/files/usr/shared'
 test -d "$PREFIX/shared" && test -w "$PREFIX/shared" && test -x "$PREFIX/shared" || {
   mkdir "$PREFIX/shared" >/dev/null 2>&1
+}
+
+# Test directory '$PATH'
+test -d "$PATH" && test -w "$PATH" && test -x "$PATH" || {
+  PATH=$(command -v 'bash' | sed 's|/bash||g')
 }
 
 # Default settings
@@ -245,7 +251,7 @@ setup_lzipsh() {
   }
 
   # Checking file 'lzipsh.sh'
-  test -x "$lzipsh/lzipsh.sh" || test -f "$LZIPSH/lzipsh.sh" || {
+  test -x "$LZIPSH/lzipsh.sh" || test -f "$LZIPSH/lzipsh.sh" || {
     chmod -x "$LZIPSH/lzipsh.sh"  >/dev/null 2>&1 || {
       fmt_info "cannot chmod file lzipsh.sh"
       echo "No such file lzipsh.sh in directory $LZIPSH"
@@ -292,18 +298,20 @@ setup_lzipsh() {
 }
 
 print_success() {
-  printf >&2 '%s\n' "${BOLD}     __      _                  __         ____"
-  printf >&2 '%s\n' '    / /___  (_)___        _____/ /_  ___  / / /'
-  printf >&2 '%s\n' '   / /_  / / / __ \______/ ___/ __ \/ _ \/ / /'
-  printf >&2 '%s\n' '  / / / /_/ / /_/ /_____(__  ) / / /  __/ / /'
-  printf >&2 '%s\n' ' /_/ /___/_/ .___/     /____/_/ /_/\___/_/_/'
-  printf >&2 '%s\n' '          /_/'
+  printf '%s\n' "${BOLD}     __      _                  __         ____"
+  printf '%s\n' '    / /___  (_)___        _____/ /_  ___  / / /'
+  printf '%s\n' '   / /_  / / / __ \______/ ___/ __ \/ _ \/ / /'
+  printf '%s\n' '  / / / /_/ / /_/ /_____(__  ) / / /  __/ / /'
+  printf '%s\n' ' /_/ /___/_/ .___/     /____/_/ /_/\___/_/_/'
+  printf '%s\n' '          /_/     Has been installed!! :)'
   printf >&2 '%s\n' "Contact me in:"
   printf >&2 '%s\n' "• Facebook : $(fmt_link 파자르김 https://facebook.com/fajarrkim)"
   printf >&2 '%s\n' "• Instagram: $(fmt_link @fajarkim_ https://instagram.com/fajarkim_)"
+  printf >&2 '%s\n' "             $(fmt_link @fajarhacker_ https://instagram.com/fajarhacker_)"
   printf >&2 '%s\n' "• Twitter  : $(fmt_link @fajarkim_ https://twitter.com/fajarkim_)"
   printf >&2 '%s\n' "• Telegram : $(fmt_link @FajarThea https://t.me/FajarThea)"
   printf >&2 '%s\n' "• WhatsApp : $(fmt_link +6285659850910 https://wa.me/6285659850910)"
+  printf >&2 '%s\n' "• YouTube  : $(fmt_link 'Fajar Hacker' https://youtube.com/@FajarHacker)"
   printf >&2 '%s\n' "• E-mail   : fajarrkim@gmail.com${RESET}"
 }
 
